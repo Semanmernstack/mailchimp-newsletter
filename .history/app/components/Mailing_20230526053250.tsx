@@ -33,7 +33,7 @@ function Mailing() {
     }
   return (
     <div className=" flex flex-col items-center justify-center shadow-zinc-800 h-min-screen">
-        <form className="flex sm:flex-col p-3 shadow-2xl" onSubmit={handleSubmit}>
+        <form className="flex sm:flex-col shadow-2xl" onSubmit={handleSubmit}>
             <div>
                 <input type="email"
                     placeholder='Email..'
@@ -41,10 +41,10 @@ function Mailing() {
 
                     onChange={(e) => setInput(e.target.value)}
                     required
-                    className="outline-none text-white bg-purple-700 h-7 md:h-12  mb-3 p-2 rounded-lg mr-10 border-none from-fuchsia-400 "
+                    className="outline-none text-white bg-purple-700 h-12 mb-3 p-2 rounded-lg mr-10 border-none from-fuchsia-400 "
 
                  />
-                 <button className="cursor-pointer mt-3 text-white bg-zinc-950 p-1 md:p-2  rounded-xl md:rounded-3xl " type='submit' disabled={!input}    >
+                 <button className="cursor-pointer mt-3 text-white bg-zinc-950 p-2  rounded-xl md:rounded-3xl " type='submit' disabled={!input}    >
                     Subscribe
                  </button>
             </div>

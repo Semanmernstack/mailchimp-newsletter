@@ -2,14 +2,14 @@
 import React, { FormEvent, useRef, useState } from 'react'
 
 function Mailing() {
-    const [input, setInput] = useState<string>("")
-    const [mailError, setMailError] = useState<string> ("")
-    const [mailOk, setMailOk] = useState<string>("")
-    
+    const [input, setInput] = useState("")
+    const [mailError, setMailError] = useState ("")
+    const [mailOk, setMailOk] = useState<MembersSuccessResponse>()
+    const buttonRef = useRef<HTMLButtonElement>(null)
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         const email = input;
-        
+        const button = buttonRef.current
         
         const res = await fetch("/api/mailSub", {
             method: 'POST',
@@ -20,7 +20,7 @@ function Mailing() {
             body: JSON.stringify({email}),
           
         })
-        
+        setInput("")
         const data = await res.json()
         if (data.error) {
             setMailError('Hey you already subscribe to trizzas cake')
@@ -28,12 +28,11 @@ function Mailing() {
             return
         }
         setMailOk(data.res)
-        setInput("")
-        
+        setMailError('')
     }
   return (
-    <div className=" flex flex-col items-center justify-center shadow-zinc-800 h-min-screen">
-        <form className="flex sm:flex-col p-3 shadow-2xl" onSubmit={handleSubmit}>
+    <div className=" flex flex-col items-center justify-center h-min-screen">
+        <form className="flex sm:flex-col " onSubmit={handleSubmit}>
             <div>
                 <input type="email"
                     placeholder='Email..'
@@ -41,20 +40,19 @@ function Mailing() {
 
                     onChange={(e) => setInput(e.target.value)}
                     required
-                    className="outline-none text-white bg-purple-700 h-7 md:h-12  mb-3 p-2 rounded-lg mr-10 border-none from-fuchsia-400 "
+                    className="outline-none text-white bg-purple-700 h-12 mb-3 p-2 rounded-lg mr-10 border-none from-fuchsia-400 "
 
                  />
-                 <button className="cursor-pointer mt-3 text-white bg-zinc-950 p-1 md:p-2  rounded-xl md:rounded-3xl " type='submit' disabled={!input}    >
+                 <button className="cursor-pointer mt-3 text-white bg-zinc-950 p-2  rounded-xl md:rounded-3xl " type='submit' ref={buttonRef}  disabled={!input}    >
                     Subscribe
                  </button>
             </div>
-            
-        </form>
-        {(mailOk || mailError ) && ( 
-            <div className="mt-5 text-sm animate-bounce">
-             {mailOk ?(<p className=" bg-red-900 p-1">Subscribe</p>):(<p className="bg-green-500 p-1">You already Subscribed</p>)}
+            <div>
+           
+               {mailOk  ? (<p>Subscribe</p>):(<p>You have already Subscribe</p>) }
             </div>
-        )}    
+
+        </form>
        
        
         
